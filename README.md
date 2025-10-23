@@ -10,7 +10,6 @@ A simple and responsive **Learning Dashboard** built with **React + Vite** for t
 - View summary stats (Total Items, In Progress, Completed, Hours)
 - Dynamic progress bars
 - Clean Figma-inspired layout
-- Uses external JSON API (MockAPI or Render)
 
 ---
 
