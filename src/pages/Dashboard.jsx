@@ -1,63 +1,98 @@
-import LearningCard from "../components/LearningCard";
+import React, { useEffect, useState } from "react";
 import SummaryStats from "../components/SummaryStats";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import LearningCard from "../components/LearningCard";
+import AddLearningModal from "../components/AddLearningModal";
+import ProgressChart from "../components/ProgressChart";
+import "../App.css";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+const Dashboard = () => {
+  const [items, setItems] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
-function Dashboard({ subjects }) {
-  const total = subjects.length;
-  const inProgress = subjects.filter(s => s.status === "In Progress").length;
-  const completed = subjects.filter(s => s.status === "Completed").length;
-  const totalHours = subjects.reduce((sum, s) => sum + s.totalHours, 0);
+  // ✅ Fetch from db.json
+  useEffect(() => {
+    fetch("http://localhost:3001/learning")
+      .then((res) => res.json())
+      .then((data) => setItems(data))
+      .catch((err) => console.error("Error fetching data:", err));
+  }, []);
 
-  const data = {
-    labels: subjects.map(s => s.name),
-    datasets: [
-      {
-        label: "Hours Done",
-        data: subjects.map(s => s.hoursDone),
-        backgroundColor: "#6a5acd",
-      },
-      {
-        label: "Total Hours",
-        data: subjects.map(s => s.totalHours),
-        backgroundColor: "#d3d3f9",
-      },
-    ],
+  // ✅ Calculate stats
+  const totalItems = items.length;
+  const inProgress = items.filter((i) => i.status === "In Progress").length;
+  const completed = items.filter((i) => i.status === "Completed").length;
+  const totalHours = items.reduce((acc, i) => acc + (i.hours || 0), 0);
+
+  // ✅ Handle adding a new subject
+  const handleAdd = (newItem) => {
+    setItems([...items, newItem]);
+    setShowModal(false);
+
+    // persist to json-server
+    fetch("http://localhost:3001/learning", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newItem),
+    });
+  };
+
+  // ✅ Handle deleting an item
+  const handleDelete = (id) => {
+    setItems(items.filter((i) => i.id !== id));
+    fetch(`http://localhost:3001/learning/${id}`, { method: "DELETE" });
   };
 
   return (
-    <div className="dashboard">
-      <h2>My Learning Journey</h2>
-      <p>Track your learning progress and stay consistent</p>
+    <div className="container">
+      {/* Header */}
+      <header>
+        <h1>🎓 Learning Dashboard</h1>
+        <button onClick={() => setShowModal(true)}>+ Add Learning</button>
+      </header>
 
-      <SummaryStats
-        total={total}
-        inProgress={inProgress}
-        completed={completed}
-        totalHours={totalHours}
-      />
+      {/* Summary Stats */}
+      <div className="summary-stats">
+        <div className="stat-box">
+          <p className="stat-title">Total Items</p>
+          <p className="stat-value">{totalItems}</p>
+        </div>
+        <div className="stat-box">
+          <p className="stat-title">In Progress</p>
+          <p className="stat-value">{inProgress}</p>
+        </div>
+        <div className="stat-box">
+          <p className="stat-title">Completed</p>
+          <p className="stat-value">{completed}</p>
+        </div>
+        <div className="stat-box">
+          <p className="stat-title">Total Hours</p>
+          <p className="stat-value">{totalHours}</p>
+        </div>
+      </div>
 
-      <div className="cards-container">
-        {subjects.map(sub => (
-          <LearningCard key={sub.id} subject={sub} />
+      {/* Chart Section */}
+      <ProgressChart data={items} />
+
+      {/* Cards Section */}
+      <div className="cards-grid">
+        {items.map((item) => (
+          <LearningCard
+            key={item.id}
+            item={item}
+            onDelete={() => handleDelete(item.id)}
+          />
         ))}
       </div>
 
-      <div className="chart-container">
-        <h3>Progress Overview</h3>
-        <Bar data={data} />
-      </div>
+      {/* Add Modal */}
+      {showModal && (
+        <AddLearningModal
+          onClose={() => setShowModal(false)}
+          onSave={handleAdd}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default Dashboard;

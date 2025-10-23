@@ -1,26 +1,33 @@
-import ProgressBar from "./ProgressBar";
+import React from "react";
+import "../App.css";
 
-function LearningCard({ subject }) {
-  const progress = Math.round((subject.hoursDone / subject.totalHours) * 100);
+const LearningCard = ({ item, onDelete }) => {
+  const progress = item.progress || 0;
 
   return (
     <div className="learning-card">
       <div className="card-header">
-        <span className="category">{subject.category}</span>
-        <span className={`status ${subject.status.toLowerCase().replace(" ", "-")}`}>
-          {subject.status}
-        </span>
+        <h3>{item.title}</h3>
+        <button className="delete-btn" onClick={onDelete}>
+          ✖
+        </button>
       </div>
 
-      <h3>{subject.name}</h3>
-      <p>{subject.description}</p>
+      <p className="category">{item.category}</p>
 
-      <ProgressBar progress={progress} />
-      <p className="hours">
-        {subject.hoursDone} / {subject.totalHours} hours
-      </p>
+      <div className="progress-bar">
+        <div
+          className="progress-bar-fill"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
+
+      <div className="card-footer">
+        <p>{progress}% Complete</p>
+        <p>{item.hours} hrs</p>
+      </div>
     </div>
   );
-}
+};
 
 export default LearningCard;
