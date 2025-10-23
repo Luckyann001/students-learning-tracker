@@ -17,42 +17,29 @@ A simple and responsive **Learning Dashboard** built with **React + Vite** for t
 ## ⚙️ Setup
 
 ```bash
-git clone https://github.com/<yourusername>/learning-dashboard.git
-cd learning-dashboard
+git clone https://github.com/<yourusername>/student-learning-tracker.git
+cd student-learning-tracker
 npm install
 npm run dev
-Then open: http://localhost:5173
+Then open: http://localhost:3001
 
-🌐 Deployment
-Frontend (Vercel)
-Push your project to GitHub.
+1️⃣ Start the JSON Server (backend)
+npx json-server --watch db.json --port 3000
 
-Go to https://vercel.com
+2️⃣ Start the React App (frontend)
+npm run dev
 
-Import your repo → Deploy (Vite will auto-detect).
 
-Backend (MockAPI or Render)
-🟢 Option 1: MockAPI.io
-Go to https://mockapi.io
+Then open:
+👉 http://localhost:5173
 
-Create a resource called learning
+🧠 Tech Stack
 
-Copy the API URL and use it in your app:
+React + Vite
 
-js
-Copy code
-const API_URL = "https://YOUR_MOCKAPI_URL/learning";
-⚙️ Option 2: Render + JSON Server
-Use a simple db.json and package.json:
+CSS (Global styles)
 
-json
-Copy code
-{
-  "scripts": { "start": "json-server --watch db.json --port 10000" },
-  "dependencies": { "json-server": "^0.17.3" }
-}
-Deploy it to https://render.com.
-
+JSON Server (local data)
   contributors
 Ramadhan Galgalo
 james isaiah
