@@ -1,44 +1,121 @@
-# React + Vite
-# 🎓 Student Learning Tracker
+A minimal full-stack web app that helps students track their study sessions, visualize progress, and stay consistent with learning goals.
+Built with React (Vite) for the frontend and JSON Server for the backend — both deployed on Vercel.
 
-A simple and responsive **Learning Dashboard** built with **React + Vite** for tracking subjects or skills — progress, total hours, and completion stats.
+🚀 Overview
 
----
+Many students struggle to stay consistent with self-study and tracking progress outside school.
+This app solves that problem by allowing learners to:
 
-## 🚀 Features
-- Add new learning items (title, category, progress, hours)
-- View summary stats (Total Items, In Progress, Completed, Hours)
-- Dynamic progress bars
-- Clean Figma-inspired layout
+Log what they studied
 
----
+Rate focus or productivity
 
-## ⚙️ Setup
+Track daily/weekly progress visually
 
-```bash
-git clone https://github.com/<yourusername>/student-learning-tracker.git
+Reflect on improvement over time
+
+🧠 Features
+
+✅ Add a study subject and progress entry
+✅ Dashboard view with charts (Chart.js)
+✅ Store and fetch data from a hosted API
+✅ Responsive, minimal UI
+✅ Deployed frontend and backend on Vercel
+
+🏗️ Tech Stack
+Layer	Technology
+Frontend	React (Vite)
+Backend	JSON Server
+Styling	CSS
+Hosting	Vercel (Frontend & Backend)
+🌐 Live Deployment
+🔹 Frontend
+
+Deployed via Vercel from the React app folder.
+
+Live App:
+👉 https://students-learning-tracker.vercel.app
+
+🔹 Backend
+
+The backend (JSON Server) is in a separate folder called json-server-vercel, also deployed on Vercel.
+
+API Endpoint:
+👉https://json-server-vercel-psi-olive.vercel.app/subjects
+
+📁 Project Structure
+student-learning-tracker/
+│
+├── frontend/                    # React app (Vite)
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── package.json
+│   └── vite.config.js
+│
+├── json-server-vercel/           # Backend API deployed separately
+│   ├── db.json                   # JSON data
+│   ├── vercel.json               # Vercel configuration
+│   └── package.json
+│
+└── README.md
+
+⚙️ Local Development (Optional)
+
+If you want to test locally before pushing updates:
+
+1️⃣ Clone Repository
+git clone https://github.com/yourusername/student-learning-tracker.git
 cd student-learning-tracker
+
+2️⃣ Run JSON Server locally
+cd json-server-vercel
+npm install
+npx json-server --watch db.json --port 3001
+
+
+Visit → http://localhost:3001/subjects
+
+3️⃣ Run Frontend locally
+cd ../frontend
 npm install
 npm run dev
-Then open: http://localhost:3001
-
-1️⃣ Start the JSON Server (backend)
-npx json-server --watch db.json --port 3000
-
-2️⃣ Start the React App (frontend)
-npm run dev
 
 
-Then open:
-👉 http://localhost:5173
+Visit → http://localhost:5173/
 
-🧠 Tech Stack
+🌍 Connecting Frontend to Backend
 
-React + Vite
+In your React code (e.g., App.jsx or Dashboard.jsx), use your hosted backend API:
 
-CSS (Global styles)
+fetch("https://json-server-vercel-yourname.vercel.app/subjects")
+  .then(res => res.json())
+  .then(data => setSubjects(data));
 
-JSON Server (local data)
+
+Or use an environment variable for cleaner setup:
+
+VITE_API_URL=https://json-server-vercel-yourname.vercel.app
+
+
+Then:
+
+fetch(`${import.meta.env.VITE_API_URL}/subjects`)
+
+👥 Team Collaboration (GitHub)
+
+Each team member creates their own branch (e.g. feature-form, feature-dashboard, etc.)
+
+After coding, push changes:
+
+git add .
+git commit -m "Added dashboard component"
+git push origin feature-dashboard
+
+
+Create a Pull Request on GitHub → Review → Merge into main.
   contributors
 Ramadhan Galgalo
 james isaiah
