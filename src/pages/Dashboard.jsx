@@ -11,7 +11,7 @@ const Dashboard = () => {
 
   // ✅ Fetch from db.json
   useEffect(() => {
-    fetch("http://localhost:3001/learning")
+    fetch("http://localhost:3001/learnihttps://json-server-vercel-psi-olive.vercel.app/subjects")
       .then((res) => res.json())
       .then((data) => setItems(data))
       .catch((err) => console.error("Error fetching data:", err));
@@ -29,7 +29,7 @@ const Dashboard = () => {
     setShowModal(false);
 
     // persist to json-server
-    fetch("http://localhost:3001/learning", {
+    fetch("https://json-server-vercel-psi-olive.vercel.app/subjectstp://localhost:3001/learning", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newItem),
@@ -39,7 +39,7 @@ const Dashboard = () => {
   // ✅ Handle deleting an item
   const handleDelete = (id) => {
     setItems(items.filter((i) => i.id !== id));
-    fetch(`http://localhost:3001/learning/${id}`, { method: "DELETE" });
+    fetch(`https://json-server-vercel-psi-olive.vercel.app/subjects${id}`, { method: "DELETE" });
   };
 
   return (
