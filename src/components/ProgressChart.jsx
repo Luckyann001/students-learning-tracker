@@ -1,21 +1,25 @@
-import React from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import "../App.css";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
 
-const ProgressChart = ({ data }) => {
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+export default function ProgressChart({ subjects }) {
+  const data = {
+    labels: subjects.map((s) => s.name),
+    datasets: [
+      {
+        label: "Progress (%)",
+        data: subjects.map((s) => s.progress),
+        backgroundColor: "#4f46e5",
+        borderRadius: 6,
+      },
+    ],
+  };
+
   return (
-    <div className="chart-container">
-      <h2>📊 Progress Overview</h2>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
-          <XAxis dataKey="title" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="progress" fill="#5b21b6" radius={[6, 6, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="chart">
+      <h3>Overall Progress</h3>
+      <Bar data={data} />
     </div>
   );
-};
-
-export default ProgressChart;
+}

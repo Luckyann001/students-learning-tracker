@@ -1,19 +1,9 @@
-import React from "react";
-
-const LearningCard = ({ task, toggleTask }) => {
+export default function LearningCard({ subject }) {
   return (
-    <div className={`learning-card ${task.completed ? "completed" : ""}`}>
-      <div className="card-left">
-        <input
-          type="checkbox"
-          checked={task.completed}
-          onChange={() => toggleTask(task.id)}
-        />
-        <span>{task.title}</span>
-      </div>
-      <div className="card-right">{task.hours}</div>
+    <div className="card">
+      <h3>{subject.name}</h3>
+      <p>Topic: {subject.topic}</p>
+      <p>Progress: {subject.progress}%</p>
     </div>
   );
-};
-
-export default LearningCard;
+}

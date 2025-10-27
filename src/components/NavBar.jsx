@@ -1,15 +1,13 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
+export default function NavBar() {
   return (
     <nav className="navbar">
-      <h1>📘 StudyTrack</h1>
-      <div className="profile">
-        <img src="https://i.pravatar.cc/40" alt="profile" />
-        <span>Hi, Student!</span>
+      <h2 className="logo">Student Tracker</h2>
+      <div className="nav-links">
+        <Link to="/">Dashboard</Link>
+        <Link to="/add">Add Learning</Link>
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}

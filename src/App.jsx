@@ -8,7 +8,7 @@ import "./App.css";
 function App() {
   const [subjects, setSubjects] = useState([]);
 
-  // 🔗 Replace this URL with your actual Render backend URL
+
   const backendUrl = "https://json-server-vercel-psi-olive.vercel.app/subjects";
 
   useEffect(() => {
