@@ -1,25 +1,38 @@
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
+import React from "react";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
-export default function ProgressChart({ subjects }) {
-  const data = {
-    labels: subjects.map((s) => s.name),
-    datasets: [
-      {
-        label: "Progress (%)",
-        data: subjects.map((s) => s.progress),
-        backgroundColor: "#4f46e5",
-        borderRadius: 6,
-      },
-    ],
-  };
+const ProgressChart = ({ averageProgress }) => {
+  const radius = 50;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (averageProgress / 100) * circumference;
 
   return (
-    <div className="chart">
-      <h3>Overall Progress</h3>
-      <Bar data={data} />
+    <div className="progress-chart">
+      <svg width="140" height="140">
+        <circle
+          cx="70"
+          cy="70"
+          r={radius}
+          stroke="#eee"
+          strokeWidth="10"
+          fill="none"
+        />
+        <circle
+          cx="70"
+          cy="70"
+          r={radius}
+          stroke="#2563eb"
+          strokeWidth="10"
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          style={{ transition: "stroke-dashoffset 0.5s ease" }}
+          transform="rotate(-90 70 70)"
+        />
+      </svg>
+      <span className="chart-text">{averageProgress}%</span>
+      <p>Average Progress</p>
     </div>
   );
-}
+};
+
+export default ProgressChart;

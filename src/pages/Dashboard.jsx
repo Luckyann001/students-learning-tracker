@@ -1,18 +1,27 @@
-import LearningCard from "../components/LearningCard";
-import SummaryStats from "../components/SummaryStats";
-import ProgressChart from "../components/ProgressChart";
+import React from "react";
 
-export default function Dashboard({ subjects }) {
+const Dashboard = ({ students }) => {
+  const total = students.length;
+  const averageProgress =
+    total > 0
+      ? Math.round(students.reduce((a, s) => a + s.progress, 0) / total)
+      : 0;
+
   return (
     <div className="dashboard">
-      <h2>Learning Dashboard</h2>
-      <SummaryStats subjects={subjects} />
-      <ProgressChart subjects={subjects} />
-      <div className="card-grid">
-        {subjects.map((subject) => (
-          <LearningCard key={subject.id} subject={subject} />
-        ))}
+      <h2>Overview</h2>
+      <div className="stats">
+        <div className="stat">
+          <h3>{total}</h3>
+          <p>Total Students</p>
+        </div>
+        <div className="stat">
+          <h3>{averageProgress}%</h3>
+          <p>Average Progress</p>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Dashboard;
