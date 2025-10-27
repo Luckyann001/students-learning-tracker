@@ -1,24 +1,26 @@
 import React from "react";
 
+const SummaryStats = ({ tasks }) => {
+  const completed = tasks.filter((t) => t.completed).length;
+  const total = tasks.length;
+  const progress = Math.round((completed / total) * 100) || 0;
 
-const SummaryStats = ({ totalItems, inProgress, completed, totalHours }) => {
   return (
-    <div className="summary">
-      <div className="summary-card">
-        <h3>{totalItems}</h3>
-        <p>Total Items</p>
+    <div className="summary-stats">
+      <div className="stat-card">
+        <h3>Total Tasks</h3>
+        <p>{total}</p>
       </div>
-      <div className="summary-card">
-        <h3>{inProgress}</h3>
-        <p>In Progress</p>
+      <div className="stat-card">
+        <h3>Completed</h3>
+        <p>{completed}</p>
       </div>
-      <div className="summary-card">
-        <h3>{completed}</h3>
-        <p>Completed</p>
-      </div>
-      <div className="summary-card">
-        <h3>{totalHours}</h3>
-        <p>Total Hours</p>
+      <div className="stat-card">
+        <h3>Progress</h3>
+        <div className="progress-bar">
+          <div className="progress" style={{ width: `${progress}%` }}></div>
+        </div>
+        <small>{progress}% complete</small>
       </div>
     </div>
   );

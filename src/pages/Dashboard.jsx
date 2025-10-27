@@ -1,98 +1,91 @@
-import React, { useEffect, useState } from "react";
-import SummaryStats from "../components/SummaryStats";
+import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import LearningCard from "../components/LearningCard";
-import AddLearningModal from "../components/AddLearningModal";
-import ProgressChart from "../components/ProgressChart";
-import "../App.css";
+import SummaryStats from "../components/SummaryStats";
 
-const Dashboard = () => {
-  const [items, setItems] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-  // ✅ Fetch from db.json
+export default function Dashboard({ subjects }) {
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [],
+  });
+
   useEffect(() => {
-    fetch("http://localhost:3001/learnihttps://json-server-vercel-psi-olive.vercel.app/subjects")
-      .then((res) => res.json())
-      .then((data) => setItems(data))
-      .catch((err) => console.error("Error fetching data:", err));
-  }, []);
+    if (subjects.length > 0) {
+      setChartData({
+        labels: subjects.map((s) => s.name),
+        datasets: [
+          {
+            label: "Progress (%)",
+            data: subjects.map((s) => s.progress),
+            backgroundColor: [
+              "#1e88e5",
+              "#43a047",
+              "#fbc02d",
+              "#e53935",
+              "#8e24aa",
+            ],
+            borderColor: "#fff",
+            borderWidth: 1,
+            borderRadius: 6,
+          },
+        ],
+      });
+    }
+  }, [subjects]);
 
-  // ✅ Calculate stats
-  const totalItems = items.length;
-  const inProgress = items.filter((i) => i.status === "In Progress").length;
-  const completed = items.filter((i) => i.status === "Completed").length;
-  const totalHours = items.reduce((acc, i) => acc + (i.hours || 0), 0);
-
-  // ✅ Handle adding a new subject
-  const handleAdd = (newItem) => {
-    setItems([...items, newItem]);
-    setShowModal(false);
-
-    // persist to json-server
-    fetch("https://json-server-vercel-psi-olive.vercel.app/subjectstp://localhost:3001/learning", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newItem),
-    });
-  };
-
-  // ✅ Handle deleting an item
-  const handleDelete = (id) => {
-    setItems(items.filter((i) => i.id !== id));
-    fetch(`https://json-server-vercel-psi-olive.vercel.app/subjects${id}`, { method: "DELETE" });
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: true, position: "top" },
+      tooltip: {
+        backgroundColor: "#1e88e5",
+        titleFont: { size: 14 },
+        bodyFont: { size: 13 },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: { stepSize: 20 },
+        grid: { color: "rgba(0,0,0,0.05)" },
+      },
+      x: { grid: { display: false } },
+    },
+    animation: {
+      duration: 1000,
+      easing: "easeInOutQuart",
+    },
   };
 
   return (
-    <div className="container">
-      {/* Header */}
-      <header>
-        <h1>🎓 Learning Dashboard</h1>
-        <button onClick={() => setShowModal(true)}>+ Add Learning</button>
-      </header>
+    <div className="dashboard">
+      <SummaryStats subjects={subjects} />
 
-      {/* Summary Stats */}
-      <div className="summary-stats">
-        <div className="stat-box">
-          <p className="stat-title">Total Items</p>
-          <p className="stat-value">{totalItems}</p>
-        </div>
-        <div className="stat-box">
-          <p className="stat-title">In Progress</p>
-          <p className="stat-value">{inProgress}</p>
-        </div>
-        <div className="stat-box">
-          <p className="stat-title">Completed</p>
-          <p className="stat-value">{completed}</p>
-        </div>
-        <div className="stat-box">
-          <p className="stat-title">Total Hours</p>
-          <p className="stat-value">{totalHours}</p>
-        </div>
+      <div className="chart-container">
+        <h3>📈 Learning Progress Overview</h3>
+        {subjects.length > 0 ? (
+          <Bar data={chartData} options={chartOptions} />
+        ) : (
+          <p className="empty-msg">No subjects yet. Add one to see progress!</p>
+        )}
       </div>
 
-      {/* Chart Section */}
-      <ProgressChart data={items} />
-
-      {/* Cards Section */}
-      <div className="cards-grid">
-        {items.map((item) => (
-          <LearningCard
-            key={item.id}
-            item={item}
-            onDelete={() => handleDelete(item.id)}
-          />
+      <div className="cards">
+        {subjects.map((s) => (
+          <LearningCard key={s.id} subject={s} />
         ))}
       </div>
-
-      {/* Add Modal */}
-      {showModal && (
-        <AddLearningModal
-          onClose={() => setShowModal(false)}
-          onSave={handleAdd}
-        />
-      )}
     </div>
   );
-};
-
-export default Dashboard;
+}
