@@ -6,7 +6,7 @@ export default function Dashboard() {
   const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
-    axios.get("https://json-server-vercel-dun-beta.vercel.app/students").then((res) => setSubjects(res.data));
+    axios.get("https://json-server-vercel-taupe-theta.vercel.app/subjects").then((res) => setSubjects(res.data));
   }, []);
 
   return (

@@ -7,7 +7,7 @@ export default function AddSubjectModal({ onClose }) {
 
   const handleAdd = async () => {
     if (!name) return alert("Enter a subject name");
-    await axios.post("https://json-server-vercel-dun-beta.vercel.app/students", {
+    await axios.post("https://json-server-vercel-taupe-theta.vercel.app/subjects", {
       name,
       progress: parseInt(progress) || 0,
     });
