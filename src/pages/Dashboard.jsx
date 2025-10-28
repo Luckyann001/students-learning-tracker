@@ -1,27 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import SubjectList from "./SubjectList";
 
-const Dashboard = ({ students }) => {
-  const total = students.length;
-  const averageProgress =
-    total > 0
-      ? Math.round(students.reduce((a, s) => a + s.progress, 0) / total)
-      : 0;
+export default function Dashboard() {
+  const [subjects, setSubjects] = useState([]);
+
+  useEffect(() => {
+    axios.get("https://json-server-vercel-dun-beta.vercel.app/students").then((res) => setSubjects(res.data));
+  }, []);
 
   return (
-    <div className="dashboard">
-      <h2>Overview</h2>
-      <div className="stats">
-        <div className="stat">
-          <h3>{total}</h3>
-          <p>Total Students</p>
-        </div>
-        <div className="stat">
-          <h3>{averageProgress}%</h3>
-          <p>Average Progress</p>
-        </div>
-      </div>
-    </div>
+    <main className="dashboard">
+      <h2 className="section-title">Your Subjects</h2>
+      <SubjectList subjects={subjects} />
+    </main>
   );
-};
-
-export default Dashboard;
+}
