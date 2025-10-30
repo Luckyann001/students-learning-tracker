@@ -8,7 +8,9 @@ export default function Dashboard() {
   const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
-    axios.get("https://json-server-vercel-taupe-theta.vercel.app/subjects").then((res) => setSubjects(res.data));
+    axios
+      .get("https://json-server-vercel-taupe-theta.vercel.app/subjects")
+      .then((res) => setSubjects(res.data));
   }, []);
 
   const completed = subjects.filter((s) => s.progress >= 80);
@@ -16,21 +18,22 @@ export default function Dashboard() {
 
   return (
     <main className="dashboard">
-      <div className="dashboard-inner">
-        <h2 className="section-title">Your Learning Progress</h2>
+      <h2 className="dashboard-title">📘 Student Learning Tracker</h2>
 
-        {/* Chart Section */}
+      {/* Progress Chart Section */}
+      <div className="chart-section">
         <ProgressChart subjects={subjects} />
+      </div>
 
-        {/* Completed Subjects */}
-        <div className="section">
-          <h3 className="section-title">Completed Subjects ✅</h3>
+      {/* Subject Overview Section */}
+      <div className="subject-sections">
+        <div className="subject-column completed">
+          <h3>✅ Completed Subjects</h3>
           <SubjectList subjects={completed} />
         </div>
 
-        {/* In Progress Subjects */}
-        <div className="section">
-          <h3 className="section-title">In Progress 📘</h3>
+        <div className="subject-column inprogress">
+          <h3>📖 In Progress</h3>
           <SubjectList subjects={inProgress} />
         </div>
       </div>
