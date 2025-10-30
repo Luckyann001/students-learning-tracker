@@ -72,3 +72,8 @@
   transform: translateY(-3px);
   background: #eaf0ff;
 }
+main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
