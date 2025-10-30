@@ -2,18 +2,27 @@
 .dashboard {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Centers everything horizontally */
+  justify-content: center;
   padding: 2rem 1rem;
   background: #f9fbff;
   min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.dashboard-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 1.5rem;
+.subject-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  justify-content: center; /* centers the grid itself */
+  align-items: start;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto; /* centers within the page */
+  box-sizing: border-box;
 }
+
 
 /* Chart Section */
 .chart-section {
@@ -24,15 +33,6 @@
   padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   margin-bottom: 2rem;
-}
-
-/* Subjects Section - Side by side on large screens */
-.subject-sections {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-  width: 100%;
-  max-width: 1000px;
 }
 
 /* Each subject column */
