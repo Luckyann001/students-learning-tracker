@@ -60,25 +60,27 @@ body, html, #root {
   max-width: 1000px;
   text-align: center;
 }
-/* === Subject List Layout === */
+/* === Subject List Styling === */
 .subject-list {
   display: flex;
-  flex-direction: column; /* stack subjects vertically */
-  align-items: center;    /* center the items horizontally */
-  gap: 1rem;              /* space between each subject */
+  flex-direction: column;  /* stack vertically */
+  align-items: center;     /* center horizontally */
+  justify-content: flex-start;
+  gap: 1.2rem;             /* spacing between subjects */
+  width: 100%;
   margin-top: 1rem;
 }
 
-/* Each subject card */
+/* Each subject item */
 .subject-item {
   background-color: #fff;
-  padding: 1rem;
-  width: 80%;
+  width: 90%;
   max-width: 400px;
+  padding: 1rem;
+  border-radius: 12px;
   text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease-in-out;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
 }
 
 .subject-item:hover {
