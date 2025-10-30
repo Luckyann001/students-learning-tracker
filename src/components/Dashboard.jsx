@@ -15,7 +15,8 @@ export default function Dashboard({ subjects, onDelete }) {
     subjects.reduce((acc, s) => acc + s.progress, 0) / subjects.length;
 
   return (
-    <div>
+    <div className="w-full max-w-5xl flex flex-col items-center">
+      {/* Chart Section */}
       <div className="flex flex-col md:flex-row justify-center items-center gap-6 mb-10">
         <ProgressChart progress={avgProgress} />
         <div className="text-center">
@@ -26,13 +27,10 @@ export default function Dashboard({ subjects, onDelete }) {
         </div>
       </div>
 
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Subject Cards Grid */}
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 justify-center place-items-center">
         {subjects.map((subject) => (
-          <SubjectCard
-            key={subject.id}
-            subject={subject}
-            onDelete={onDelete}
-          />
+          <SubjectCard key={subject.id} subject={subject} onDelete={onDelete} />
         ))}
       </div>
     </div>
