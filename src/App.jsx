@@ -9,7 +9,7 @@ export default function App() {
 
   const fetchSubjects = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/subjects");
+      const res = await axios.get("https://json-server-vercel-taupe-theta.vercel.app/subjects");
       setSubjects(res.data);
     } catch (error) {
       console.error("Error fetching subjects:", error);
@@ -22,7 +22,7 @@ export default function App() {
 
   const handleAddSubject = async (newSubject) => {
     try {
-      await axios.post("http://localhost:5000/subjects", newSubject);
+      await axios.post("https://json-server-vercel-taupe-theta.vercel.app/subjects", newSubject);
       fetchSubjects();
       setShowModal(false);
     } catch (error) {
